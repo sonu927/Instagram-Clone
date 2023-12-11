@@ -12,18 +12,68 @@ import {
 import { FaEye } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa";
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const AuthForm = () => {
   const [isLogin, setIsLogin] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
+  const navigate = useNavigate();
   const [inputs, setInputs] = useState({
     email: "",
     password: "",
     confirmPassword: "",
   });
+  const [inputsCheck, setInputsCheck] = useState({
+    email: false,
+    password: false,
+    confirmPassword: false,
+  });
+  const checkIfEmptyOrInvalid = (item, type) => {
+    if (type == "email") {
+      if (item == "") {
+        return true;
+      } else {
+        if (!item.includes("@")) {
+          return true;
+        }
+      }
+    } else {
+      if (item == "") {
+        return true;
+      }
+    }
+    return false;
+  };
 
   const handleAuth = () => {
-    console.log(inputs);
+    const emailInvalid = checkIfEmptyOrInvalid(inputs.email, "email");
+    const passwordInvalid = checkIfEmptyOrInvalid(inputs.password, "password");
+    const confirmPasswordInvalid = isLogin
+      ? false
+      : checkIfEmptyOrInvalid(inputs.confirmPassword, "confirmPassword");
+    setInputsCheck({
+      email: emailInvalid,
+      password: passwordInvalid,
+      confirmPassword: confirmPasswordInvalid,
+    });
+    console.log("email", checkIfEmptyOrInvalid(inputs.email, "email"));
+    console.log("password", checkIfEmptyOrInvalid(inputs.password, "password"));
+    console.log(
+      "confirmPassword",
+      checkIfEmptyOrInvalid(inputs.confirmPassword, "confirmPassword")
+    );
+
+    if (isLogin) {
+      if (emailInvalid || passwordInvalid) {
+        return;
+      }
+    } else {
+      if (emailInvalid || passwordInvalid || confirmPasswordInvalid) {
+        return;
+      }
+    }
+
+    navigate("/");
   };
   return (
     <>
@@ -31,6 +81,7 @@ const AuthForm = () => {
         <VStack spacing={4}>
           <Image src="/logo.png" h={24} cursor={"pointer"} alt="Instagram" />
           <Input
+            isInvalid={inputsCheck.email}
             placeholder="Email"
             fontSize={14}
             type="email"
@@ -39,6 +90,7 @@ const AuthForm = () => {
           />
           <InputGroup>
             <Input
+              isInvalid={inputsCheck.password}
               placeholder="Password"
               fontSize={14}
               type={showPassword ? "text" : "password"}
@@ -62,6 +114,7 @@ const AuthForm = () => {
           {!isLogin && (
             <InputGroup>
               <Input
+                isInvalid={inputsCheck.confirmPassword}
                 placeholder="Confirm Password"
                 fontSize={14}
                 type={showPassword ? "text" : "password"}
