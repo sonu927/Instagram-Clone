@@ -1,4 +1,5 @@
 import { Box, Flex } from "@chakra-ui/react";
+import PropTypes from 'prop-types';
 import React from "react";
 import Sidebar from "../../components/Sidebar/Sidebar";
 import { useLocation } from "react-router-dom";
@@ -22,5 +23,9 @@ const PageLayout = ({ children }) => {
     </Flex>
   );
 };
+
+PageLayout.propTypes = {
+  children: PropTypes.any.isRequired,
+}
 
 export default PageLayout;
