@@ -14,7 +14,7 @@ import {
   UnlikeLogo,
 } from "../../assets/constants";
 
-const PostFooter = ({ username }) => {
+const PostFooter = ({ username,isProfilePage }) => {
   const [liked, setLiked] = useState(false);
   const [likes, setLikes] = useState(1000);
 
@@ -28,7 +28,7 @@ const PostFooter = ({ username }) => {
     }
   };
   return (
-    <Box mb={8}>
+    <Box mb={8} marginTop={"auto"}>
       <Flex alignItems={"center"} gap={4} w={"full"} mt={2} myb={4}>
         <Box onClick={handleLike} cursor={"pointer"} fontSize={18}>
           {!liked ? <NotificationsLogo /> : <UnlikeLogo />}
@@ -40,15 +40,20 @@ const PostFooter = ({ username }) => {
       <Text fontWeight={600} fontSize={"sm"}>
         {likes} likes
       </Text>
-      <Text fontWeight={700} fontSize={"sm"}>
-        {username}{" "}
-        <Text as={"span"} fontWeight={600}>
-          Feeling Good
-        </Text>
-      </Text>
-      <Text fontSize={"sm"} color={"gray"}>
-        View 1,000 Comments
-      </Text>
+      {!isProfilePage && 
+        <>
+          <Text fontWeight={700} fontSize={"sm"}>
+            {username}{" "}
+            <Text as={"span"} fontWeight={600}>
+              Feeling Good
+            </Text>
+          </Text>
+          <Text fontSize={"sm"} color={"gray"}>
+            View 1,000 Comments
+          </Text>
+        </>
+      }
+      
       <Flex
         alignItems={"center"}
         gap={2}
