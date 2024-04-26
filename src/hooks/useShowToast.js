@@ -2,7 +2,7 @@ import { useToast } from "@chakra-ui/react";
 
 const useShowToast = () => {
   const toast = useToast()
-  const showTost = (title,description,status)=>{
+  const showToast = (title,description,status)=>{
     toast({
       title: title,
       description: description,
@@ -11,7 +11,7 @@ const useShowToast = () => {
       isClosable: true,
     })
   }
-  return showTost ;
+  return showToast ;
 }
 
 export default useShowToast

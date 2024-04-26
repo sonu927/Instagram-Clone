@@ -3,14 +3,18 @@ import PropTypes from 'prop-types';
 import React from "react";
 import Sidebar from "../../components/Sidebar/Sidebar";
 import { useLocation } from "react-router-dom";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth } from "../../firebase/firebase";
 
 const PageLayout = ({ children }) => {
   const path = useLocation();
   console.log("snjd", path);
+  const [user, loading, error] = useAuthState(auth);
+  const canRenderSideBar = path !== "/auth" && user;
   return (
     <Flex>
       {/* SidePanel */}
-      {path.pathname !== "/auth" ? (
+      {canRenderSideBar ? (
         <Box width={{ base: "70px", md: "240px" }}>
           <Sidebar />
         </Box>
